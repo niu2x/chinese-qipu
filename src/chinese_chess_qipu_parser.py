@@ -22,8 +22,7 @@ if __name__ == '__main__':
 
 	redWin = len(steps) % 2 == 1
 	counter = 0
-
-	print('redWin: ' + str(redWin))
+	
 	for step in steps:
 		info = board.encode() + " : " + ("%d,%d,%d,%d" % (step[0][0], step[0][1], step[1][0], step[1][1]))
 		board.move_piece(step[0], step[1])

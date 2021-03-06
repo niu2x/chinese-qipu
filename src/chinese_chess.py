@@ -27,6 +27,9 @@ class ChinesePiece(Piece):
 		super(ChinesePiece, self).__init__(team, name)
 		self.type_ = type
 
+	def type(self):
+		return self.type_
+
 class ChineseChess(Board):
 	def __init__(self):
 		super(ChineseChess, self).__init__()
@@ -53,39 +56,39 @@ class ChineseChess(Board):
 
 		self.clear()
 
-		self.put_piece(ChinesePieceType.kRC, 0, 0)
-		self.put_piece(ChinesePieceType.kRM, 1, 0)
-		self.put_piece(ChinesePieceType.kRX, 2, 0)
-		self.put_piece(ChinesePieceType.kRS, 3, 0)
-		self.put_piece(ChinesePieceType.kRJ, 4, 0)
-		self.put_piece(ChinesePieceType.kRC, 8, 0)
-		self.put_piece(ChinesePieceType.kRM, 7, 0)
-		self.put_piece(ChinesePieceType.kRX, 6, 0)
-		self.put_piece(ChinesePieceType.kRS, 5, 0)
-		self.put_piece(ChinesePieceType.kRP, 1, 2)
-		self.put_piece(ChinesePieceType.kRP, 7, 2)
-		self.put_piece(ChinesePieceType.kRB, 0, 3)
-		self.put_piece(ChinesePieceType.kRB, 2, 3)
-		self.put_piece(ChinesePieceType.kRB, 4, 3)
-		self.put_piece(ChinesePieceType.kRB, 6, 3)
-		self.put_piece(ChinesePieceType.kRB, 8, 3)
+		self.put_piece(ChinesePieceType.kBC, 0, 0)
+		self.put_piece(ChinesePieceType.kBM, 1, 0)
+		self.put_piece(ChinesePieceType.kBX, 2, 0)
+		self.put_piece(ChinesePieceType.kBS, 3, 0)
+		self.put_piece(ChinesePieceType.kBJ, 4, 0)
+		self.put_piece(ChinesePieceType.kBC, 8, 0)
+		self.put_piece(ChinesePieceType.kBM, 7, 0)
+		self.put_piece(ChinesePieceType.kBX, 6, 0)
+		self.put_piece(ChinesePieceType.kBS, 5, 0)
+		self.put_piece(ChinesePieceType.kBP, 1, 2)
+		self.put_piece(ChinesePieceType.kBP, 7, 2)
+		self.put_piece(ChinesePieceType.kBB, 0, 3)
+		self.put_piece(ChinesePieceType.kBB, 2, 3)
+		self.put_piece(ChinesePieceType.kBB, 4, 3)
+		self.put_piece(ChinesePieceType.kBB, 6, 3)
+		self.put_piece(ChinesePieceType.kBB, 8, 3)
 
-		self.put_piece(ChinesePieceType.kBC, 0, 9)
-		self.put_piece(ChinesePieceType.kBM, 1, 9)
-		self.put_piece(ChinesePieceType.kBX, 2, 9)
-		self.put_piece(ChinesePieceType.kBS, 3, 9)
-		self.put_piece(ChinesePieceType.kBJ, 4, 9)
-		self.put_piece(ChinesePieceType.kBC, 8, 9)
-		self.put_piece(ChinesePieceType.kBM, 7, 9)
-		self.put_piece(ChinesePieceType.kBX, 6, 9)
-		self.put_piece(ChinesePieceType.kBS, 5, 9)
-		self.put_piece(ChinesePieceType.kBP, 1, 7)
-		self.put_piece(ChinesePieceType.kBP, 7, 7)
-		self.put_piece(ChinesePieceType.kBB, 0, 6)
-		self.put_piece(ChinesePieceType.kBB, 2, 6)
-		self.put_piece(ChinesePieceType.kBB, 4, 6)
-		self.put_piece(ChinesePieceType.kBB, 6, 6)
-		self.put_piece(ChinesePieceType.kBB, 8, 6)
+		self.put_piece(ChinesePieceType.kRC, 0, 9)
+		self.put_piece(ChinesePieceType.kRM, 1, 9)
+		self.put_piece(ChinesePieceType.kRX, 2, 9)
+		self.put_piece(ChinesePieceType.kRS, 3, 9)
+		self.put_piece(ChinesePieceType.kRJ, 4, 9)
+		self.put_piece(ChinesePieceType.kRC, 8, 9)
+		self.put_piece(ChinesePieceType.kRM, 7, 9)
+		self.put_piece(ChinesePieceType.kRX, 6, 9)
+		self.put_piece(ChinesePieceType.kRS, 5, 9)
+		self.put_piece(ChinesePieceType.kRP, 1, 7)
+		self.put_piece(ChinesePieceType.kRP, 7, 7)
+		self.put_piece(ChinesePieceType.kRB, 0, 6)
+		self.put_piece(ChinesePieceType.kRB, 2, 6)
+		self.put_piece(ChinesePieceType.kRB, 4, 6)
+		self.put_piece(ChinesePieceType.kRB, 6, 6)
+		self.put_piece(ChinesePieceType.kRB, 8, 6)
 
 	def do_step_by_qpcode(self, step):
 		step = step.strip()
@@ -144,11 +147,24 @@ class ChineseChess(Board):
 	def empty_width(self):
 		return 5
 
+	def encode(self):
+		result = []
+		for y in range(10):
+			for x in range(9):
+				piece = self.piece_at(x, y)
+				if piece:
+					result.append(2 ** self.piece_at(x, y).type())
+				else:
+					result.append(0)
+		result = map(str, result)
+		return ','.join(result)
+
 if __name__ == '__main__':
 	board = ChineseChess()
-
+	board.make_default_board()
+	print(board.encode())
 	board.make_board_by_qpcode('1rbckaP2/3PaP1r1/1P2b4/1R7/Nn7/CRBp1n3/4C4/9/4p1p2/1c3K3 w')
 	print(board)
 	print('\n---------------------\n')
 	board.do_step_by_qpcode('g9f9d9f9d8e8e9d9e8e9d9d8b6d6b5d6a5c6d8d7b7c7d7d8b4b8b9b8c7b7d8d7a4a7')
-	print(board)
+	print(board.encode())

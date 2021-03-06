@@ -28,6 +28,9 @@ class Board:
 	def clear(self):
 		self.cells_ = [[None for y in range(10)] for x in range(9)]
 
+	def piece_at(self, x, y):
+		return self.cells_[x][y]
+
 
 if __name__ == '__main__':
 	print(Board())
